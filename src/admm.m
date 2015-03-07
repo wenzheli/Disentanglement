@@ -3,7 +3,7 @@ function [W, objs, tmp] = admm(X, lam1, lam2, rho)
 %  X :   N by D matrix, each row is the data point
 
 [N,D] = size(X);  % N: # of training data  D: # of dimensions
-K = 50;           % K: # of hidden units. 
+K = 5;           % K: # of hidden units. 
 
 X=X-mean(X(:));
 X=X/std(X(:));
@@ -42,27 +42,10 @@ for i=1:Max_Iter
     Zl = U*Q*V';
     
     % update Z2  
-    %Z2 = W*S*W' + (1/rho)*U2;
-    %Z2 = sign(Z2).*(abs(Z2) > lam2/rho).*(abs(Z2) - lam2/rho);
-    
-    % TODO simplify this. 
-    m = size(Z2,1);
-    n = size(Z2,2);
-    z_new = zeros(m,n);
     tmp = W*S*W' + rho_inv * U2;
-    for i=1:size(Z2,1)
-        for j=1:size(Z2,2)
-            if tmp(i,j) > (lam2/rho)
-                z_new(i,j) = tmp(i,j) - lam2/rho;
-            elseif tmp(i,j) <= -lam2/rho
-                z_new(i,j) = tmp(i,j) + lam2/rho;
-            else
-                z_new(i,j) = 0;
-            end
-        end
-    end
-    Z2 = z_new;
-    
+    Z2 = (tmp-lam2/rho).* (tmp > lam2/rho)
+    Z2 = Z2+(tmp+lam2/rho).* (tmp <= -lam2/rho)
+     
     % update U1,U2
     U2 = U2 + (W*S*W' - Z2);
     U1 = U1 + (W*S*W' - Zl);
