@@ -2,7 +2,7 @@
 
 
 ### Description for files
-- admm.m :  the main file for learning model parameteres, it is based on the note.pdf 
+- admm.m :  the main file for learning model parameteres, it is based on the note.
 - modularity_dir:  the funtion uses to generate block-diagonal matrix. The input is the matrix, and output is the cluster indicates 
                 for each dimensions. 
                 
