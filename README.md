@@ -9,7 +9,7 @@
 - *.mat :  this is the face image data sets used for testing. 
 
 
-###TODO list:
+###TODO list (hopefully by next Thursday):
 * Verify sparse row rank regularization gives block-diagonal matrix (L_1 + nuclear_norm) If not, we need to seek for other regularization
 * Need to make sure current formulation (linear autoencoder) works and is able to generate block-diagonal weight matrix. 
 * Extend the current formulation to non-linear autoencoder by putting sigmoid function. (Derivation should be a bit complicated)
