@@ -52,11 +52,11 @@ for i=1:10
     for j=1:10
         x = X1(:,id);
         x = reshape(x,[28,28]);
-        img0((i-1)*29+1:i*29-1,(j-1)*29+1:j*29-1) = x;
+        img0((i-1)*29+1:i*29-1,(j-1)*29+1:j*29-1) = x';
 
         x = Y(:,id);
         x = reshape(x,[28,28]);
-        img1((i-1)*29+1:i*29-1,(j-1)*29+1:j*29-1) = x;
+        img1((i-1)*29+1:i*29-1,(j-1)*29+1:j*29-1) = x';
         id=id+1;
     end
 end
@@ -70,7 +70,7 @@ m = cell(1,nBlocks);
 v = cell(1,nBlocks);
 for blockID = 1:nBlocks
     for i=1:10
-        Zs{i, blockID} = Z{1}(:,batchlabel(1:10000)==i);
+        Zs{i, blockID} = Z{blockID}(:,batchlabel(1:10000)==i);
     end
     m{blockID} = mean(Z{blockID},2);
     v{blockID} = cov(Z{blockID}');
@@ -83,6 +83,7 @@ end
 % full mean and covariance matrix
 M = mean(z);
 V = cov(z);
+clear z;
 
 % 
 figure, 
@@ -97,6 +98,7 @@ for blockID = 1:nBlocks
     hold on, plot(Zs{8 ,blockID}(1,:), Zs{8 ,blockID}(2,:),'gd')
     hold on, plot(Zs{9 ,blockID}(1,:), Zs{9 ,blockID}(2,:),'rd')
     hold on, plot(Zs{10 ,blockID}(1,:), Zs{10 ,blockID}(2,:),'kd')
+    title(['block ' num2str(blockID)], 'FontSize',12,'FontWeight','Demi')
 end
 
 save(['statBlock' num2str(nBlocks) '.mat'], 'm','v','M','V');
