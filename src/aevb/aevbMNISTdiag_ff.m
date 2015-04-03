@@ -2,11 +2,11 @@
 % 1. check the reconstructed samples
 % 2. visualize the hidden space
 
-load data/batchtraindata.mat;
+load ../data/batchtraindata.mat;
 dataTr = batchdata';
 clear batchdata;
 
-load MNISTdiag.mat
+load modelMNISTdiag_noprior.mat
 model = model{1};   % select model with lowest reconstruction error 
 
 W5 = model.W5;
@@ -52,9 +52,9 @@ for i=1:10
     end
 end
 figure, subplot(1,2,1), imshow(img0,[]);
-title('original', 'FontSize',12','FontWeigth','Demi');
+title('original', 'FontSize',12','FontWeight','Demi');
 subplot(1,2,2), imshow(img1,[]);
-title('reconstruct', 'FontSize',12','FontWeigth','Demi');
+title('reconstruct', 'FontSize',12','FontWeight','Demi');
 
 %% part 2. visualize the hidden space according to digit classes
 Zs = cell(10,1);

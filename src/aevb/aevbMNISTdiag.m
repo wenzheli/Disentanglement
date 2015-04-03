@@ -1,4 +1,4 @@
-% AEVB implementation on MNIST data
+% AEVB implementation on MNIST data, with diagonal Gaussian posterior assumption
 % 
 % the struction of the model
 % q(z|x): dim-784 Xs --> dim-200 hu --> dim-2 Gaussian Z
