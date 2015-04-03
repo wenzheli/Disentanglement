@@ -28,7 +28,6 @@ for blockID = 1:nBlocks
     AM{blockID}     = zeros(D2{blockID}^2, mbSize);          % matrix form
     AT{blockID}     = zeros(D2{blockID}, D2{blockID}, mbSize);        % tensor form
     Z{blockID}      = zeros(D2{blockID}, mbSize*L);
-    Z{blockID}      = zeros(D2, mbSize*L);
 end
 h2      = zeros(D3, mbSize*L);
 X2      = zeros(D0, mbSize*L);
