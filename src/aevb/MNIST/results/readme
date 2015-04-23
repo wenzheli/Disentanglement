@@ -1,0 +1,22 @@
+================= diagonal posterior Model, with N(0,I) prior ==================
+Model1a.mat % 2 dim hidden layer
+Model1A.mat % 4 dim hidden layer
+
+================= diagonal posterior Model, without prior ==================
+Model1b.mat % 2 dim hidden layer
+Model1B.mat % 4 dim hidden layer
+
+================= block diagonal exponential posterior Model, without prior ==================
+Model2a.mat % 2 2x2 blocks
+Model3a.mat % 3 2x2 blocks
+
+================= block diagonal exponential posterior Model, N(0,I) prior ==================
+Model2b.mat % 2 2x2 blocks
+Model3b.mat % 3 2x2 blocks
+
+================= block diagonal exponential posterior Model, Norm-Wishart prior ==================
+Model2c.mat % 2 2x2 blocks
+Model3c.mat % 3 2x2 blocks
+
+================= block diagonal quadratic posterior Model, without prior ==================
+Model2d.mat % 2 2x2 blocks
