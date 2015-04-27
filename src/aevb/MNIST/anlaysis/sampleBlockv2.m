@@ -37,7 +37,7 @@ function [img1, img2, img3] = sampleBlock(name)
     borderUnit = (borderUp-borderLow)/25;
    
     Coords = bsxfun(@plus, bsxfun(@times, repmat((0.5:1:25)',[1,4]), borderUnit), borderLow);
-    keyboard
+    Coords2 = Coords + bsxfun(@times, rand(size(Coords))-0.5, borderUnit);
 
     %% start sampling
     W5 = model.W5;
@@ -48,7 +48,7 @@ function [img1, img2, img3] = sampleBlock(name)
 
     N = zeros(4,1)+25;
 
-    img1 = cell(30,1); % block 1 fixed
+    img1 = cell(25,1); % block 1 fixed
     id = 1;
     imgLabel1 = zeros(1,2);
     for i=2:5:N(1)
@@ -69,14 +69,12 @@ function [img1, img2, img3] = sampleBlock(name)
         end
     end
    
-    %{
     for i=1:length(img1)
         figure, imshow(img1{i},[]);
         title(['Z(1,2): (' num2str(imgLabel1(i,1)) ', ' num2str(imgLabel1(i,2)) ')'], 'FontSize',12,'FontWeight','Demi'); 
     end
-    %}
 
-    img2 = cell(30,1); % block 1 fixed
+    img2 = cell(25,1); % block 1 fixed
     id = 1;
     imgLabel2 = zeros(1,2);
     for i=2:5:N(2)
@@ -95,6 +93,10 @@ function [img1, img2, img3] = sampleBlock(name)
             imgLabel2(id,:) = Z2';
             id=id+1;
         end
+    end
+    for i=1:length(img2)
+        figure, imshow(img2{i},[]);
+        title(['Z(3,4): (' num2str(imgLabel2(i,1)) ', ' num2str(imgLabel2(i,2)) ')'], 'FontSize',12,'FontWeight','Demi'); 
     end
 
     img3 = cell(2,1);
@@ -119,12 +121,6 @@ function [img1, img2, img3] = sampleBlock(name)
         end
     end
 
-    %{
-    for i=1:length(img2)
-        figure, imshow(img2{i},[]);
-        title(['Z(3,4): (' num2str(imgLabel2(i,1)) ', ' num2str(imgLabel2(i,2)) ')'], 'FontSize',12,'FontWeight','Demi'); 
-    end
-    %}
     
 end
 
