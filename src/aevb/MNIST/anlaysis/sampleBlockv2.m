@@ -37,7 +37,7 @@ function [img1, img2, img3] = sampleBlock(name)
     borderUnit = (borderUp-borderLow)/25;
    
     Coords = bsxfun(@plus, bsxfun(@times, repmat((0.5:1:25)',[1,4]), borderUnit), borderLow);
-    Coords2 = Coords + bsxfun(@times, rand(size(Coords))-0.5, borderUnit);
+    
 
     %% start sampling
     W5 = model.W5;
@@ -48,6 +48,7 @@ function [img1, img2, img3] = sampleBlock(name)
 
     N = zeros(4,1)+25;
 
+    
     img1 = cell(25,1); % block 1 fixed
     id = 1;
     imgLabel1 = zeros(1,2);
@@ -56,7 +57,7 @@ function [img1, img2, img3] = sampleBlock(name)
             img1{id} = zeros(29*N(2)-1,29*N(2)-1);
             for k=1:N(2)
                 for l=1:N(2)
-                    Z1 = [Coords(i,1); Coords(j,2)];
+                    Z1 = [Coords(i,1); Coords(j,2)]+(rand(2,1)-0.5).*borderUnit(1:2)';
                     Z2 = [Coords(k,3); Coords(l,4)];
                     h2 = tanh(W4{1}'*Z1 + W4{2}'*Z2 + b4);
                     x = 1./(1+exp(-bsxfun(@plus, W5'*h2, b5)));
@@ -82,7 +83,7 @@ function [img1, img2, img3] = sampleBlock(name)
             img2{id} = zeros(29*N(1)-1,29*N(1)-1);
             for k=1:N(1)
                 for l=1:N(1)
-                    Z2 = [Coords(i,3); Coords(j,4)];
+                    Z2 = [Coords(i,3); Coords(j,4)]+ (rand(2,1)-0.5).*borderUnit(3:4)';
                     Z1 = [Coords(k,1); Coords(l,2)];
                     h2 = tanh(W4{1}'*Z1 + W4{2}'*Z2 + b4);
                     x = 1./(1+exp(-bsxfun(@plus, W5'*h2, b5)));
@@ -120,7 +121,7 @@ function [img1, img2, img3] = sampleBlock(name)
             img3{2}((k-1)*29+1:k*29-1,(l-1)*29+1:l*29-1) = x';
         end
     end
-
+    keyboard
     
 end
 
