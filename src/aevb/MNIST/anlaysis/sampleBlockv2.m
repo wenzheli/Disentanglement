@@ -37,6 +37,7 @@ function [img1, img2, img3] = sampleBlock(name)
     borderUnit = (borderUp-borderLow)/25;
    
     Coords = bsxfun(@plus, bsxfun(@times, repmat((0.5:1:25)',[1,4]), borderUnit), borderLow);
+    keyboard
 
     %% start sampling
     W5 = model.W5;
@@ -63,8 +64,8 @@ function [img1, img2, img3] = sampleBlock(name)
                     img1{id}((k-1)*29+1:k*29-1,(l-1)*29+1:l*29-1) = x';
                 end
             end
-            id=id+1;
             imgLabel1(id,:) = Z1';
+            id=id+1;
         end
     end
    
@@ -91,8 +92,8 @@ function [img1, img2, img3] = sampleBlock(name)
                     img2{id}((k-1)*29+1:k*29-1,(l-1)*29+1:l*29-1) = x';
                 end
             end
-            id=id+1;
             imgLabel2(id,:) = Z2';
+            id=id+1;
         end
     end
 

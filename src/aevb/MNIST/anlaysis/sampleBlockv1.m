@@ -56,8 +56,8 @@ function [img1, img2, img3] = sampleBlock(name)
                     img1{id}((k-1)*29+1:k*29-1,(l-1)*29+1:l*29-1) = x';
                 end
             end
-            id=id+1;
             imgLabel1(id,:) = Z1';
+            id=id+1;
         end
     end
    
@@ -84,8 +84,8 @@ function [img1, img2, img3] = sampleBlock(name)
                     img2{id}((k-1)*29+1:k*29-1,(l-1)*29+1:l*29-1) = x';
                 end
             end
-            id=id+1;
             imgLabel2(id,:) = Z2';
+            id=id+1;
         end
     end
     %{
