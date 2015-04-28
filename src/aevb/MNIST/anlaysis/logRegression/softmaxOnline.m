@@ -14,10 +14,27 @@ function w0 = softmaxOnline(train, devel, nc, lr, scaler, lambda)
     xTr = train.X;
     yTr = train.Y;
     N = size(xTr,1);
-    if(size(yTr,2)~=nc)
-        keyboard
-        error('classes mismatch');
+
+    if(min(size(yTr,1), size(yTr,2))==1)
+        if(size(yTr,2)~=nc)
+            keyboard
+            error('classes mismatch');
+        end
+    else
+        yTr = zeros(N,nc);
+        train.Y = train.Y-min(train.Y)+1;
+        for i=1:nc
+            yTr(train.Y==i,i) = 1;
+        end
+
+        yVal = zeros(length(devel.Y),nc);
+        devel.Y = devel.Y-min(devel.Y)+1;
+        for i=1:nc
+            yVal(devel.Y==i,i) = 1;
+        end
+        devel.Y = yVal; 
     end
+
     if(size(yTr,1)~=N)
         keyboard
         error('samples mismatch');
