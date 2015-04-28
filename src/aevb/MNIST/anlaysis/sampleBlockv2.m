@@ -21,7 +21,12 @@ function [img1, img2, img3] = sampleBlock(name)
     dataTr = batchdata';
     clear batchdata;
     [ms,vs,Mdata,Vdata,Vtrue] = aevbStat(model, dataTr);
-    
+    fprintf(2,'Mean:\n');
+    disp(Mdata);
+    fprintf(2,'data coVariance\n');
+    disp(Vdata);
+    fprintf(2,'posterior Covariance, average\n');
+    disp(Vtrue);
 
     % part 3. sample images: firstly sample z then sample x|z
     % sample each blocks respectively
