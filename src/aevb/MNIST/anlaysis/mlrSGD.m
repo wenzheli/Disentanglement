@@ -1,5 +1,5 @@
-data1 = load('../../data/dataOut1a.mat');
-data2 = load('../../data/dataOutTest1a.mat');
+data1 = load('../data/dataOut1a.mat');
+data2 = load('../data/dataOutTest1a.mat');
 
 % the following paragraph is used for debugging
 % load ../../../data/batchtestdata.mat  
@@ -39,6 +39,7 @@ lrate = 0.01;
 mbSize = 50;
 nEpoch = 50;
 bestAcc = 0;
+bestAccTe = 0;
 for epoch = 1:nEpoch
     index = randperm(nSamples);
     for firstIdx = 1:mbSize:nSamples
@@ -74,9 +75,25 @@ for epoch = 1:nEpoch
         acc = acc+sum(l(:)==y(:));
     end
     
+    
+    accTe = 0;
+    for firstIdx = 1:mbSize:nSamplesTe
+        lastIdx = min(firstIdx+mbSize-1, nSamplesTe);
+        batchSize = lastIdx-firstIdx+1;
+        
+        X = dataTe(:,firstIdx:lastIdx);
+        l = labelTe(firstIdx:lastIdx);
+         
+        P = 1./(1+exp(-bsxfun(@plus, W'*X, bias)));
+        [~, y] = max(P);
+        accTe = accTe + sum(l(:)==y(:));
+    end
+    
+    
     fprintf(2, 'epoch %d, heldout accuracy %f\n', epoch, acc/nSamplesVal);
     if(acc>bestAcc)
         bestW = W;
         bestBias = bias;
+        bestAccTe = accTe/nSamplesTe;
     end
 end
