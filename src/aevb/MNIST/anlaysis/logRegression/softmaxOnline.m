@@ -2,6 +2,10 @@ function w0 = softmaxOnline(train, devel, nc, lr, scaler, lambda)
 % train, test data
 %   each containing feature and label matrix
 %   (N_example x F_dim) and(N_example x N_class)
+%   nc:  number of class
+%   lr:  learning rate
+%   scaler: learning rate decay
+%   lambda: L2 weight decay
 
     dim = size(train.X,2);
     % initialization 
