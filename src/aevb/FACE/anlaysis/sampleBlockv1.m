@@ -1,4 +1,4 @@
-function [img1, img2] = sampleBlock(name)
+function [img1, img2, img3] = sampleBlock(name)
     load(['../model/' name '.mat']);
     nBlocks = 2;
     D2 = 2;
@@ -23,9 +23,9 @@ function [img1, img2] = sampleBlock(name)
     dataTr = dataTr/max(max(dataTr)); % normalization
     dataTr = dataTr';
 
-    ptModel = load('../data/faceStats.mat');
-    dataTr = bsxfun(@minus, dataTr, ptModel.faceM);
-    dataTr = bsxfun(@rdivide, dataTr, ptModel.faceSTD);
+    faceStat = load('../data/faceStats.mat');
+    dataTr = bsxfun(@minus, dataTr, faceStat.faceM);
+    dataTr = bsxfun(@rdivide, dataTr, faceStat.faceSTD);
 
     [ms,vs,Mdata,Vdata,Vtrue] = aevbStat(model, dataTr);
     
@@ -62,8 +62,8 @@ function [img1, img2] = sampleBlock(name)
                     h2 = 1./(1+exp(-(W4{1}'*Z1 + W4{2}'*Z2 + b4)));
                     x = bsxfun(@plus, W5'*h2, b5);
                     
-                    x = x.*ptModel.faceSTD;
-                    x = x+ptModel.faceM;
+                    x = x.*faceStat.faceSTD;
+                    x = x+faceStat.faceM;
                     
                     x = reshape(x,[dim,dim]);
                     img1{id}((k-1)*(dim+1)+1:k*(dim+1)-1,(l-1)*(dim+1)+1:l*(dim+1)-1) = x;
@@ -92,8 +92,8 @@ function [img1, img2] = sampleBlock(name)
                     h2 = 1./(1+exp(-(W4{1}'*Z1 + W4{2}'*Z2 + b4)));
                     x = bsxfun(@plus, W5'*h2, b5);
                     
-                    x = x.*ptModel.faceSTD;
-                    x = x+ptModel.faceM;
+                    x = x.*faceStat.faceSTD;
+                    x = x+faceStat.faceM;
                     
                     x = reshape(x,[dim,dim]);
                     img2{id}((k-1)*(dim+1)+1:k*(dim+1)-1,(l-1)*(dim+1)+1:l*(dim+1)-1) = x;
@@ -108,6 +108,34 @@ function [img1, img2] = sampleBlock(name)
         title(['Z(3,4): (' num2str(imgLabel2(i,1)) ', ' num2str(imgLabel2(i,2)) ')'], 'FontSize',12,'FontWeight','Demi'); 
     end
     
+
+    img3 = cell(2,1); % block 1 fixed
+   for k=1:N(2)
+        for l=1:N(2)
+            Z1 = [Mdata(1); Mdata(2)];
+            Z2 = [z{2}(k,1); z{2}(l,2)];
+            h2 = 1./(1+exp(-(W4{1}'*Z1 + W4{2}'*Z2 + b4)));
+            x = bsxfun(@plus, W5'*h2, b5);
+
+            x = x.*faceStat.faceSTD;
+            x = x + faceStat.faceM;
+            x = reshape(x,[dim,dim]);
+            img3{1}((k-1)*(dim+1)+1:k*(dim+1)-1,(l-1)*(dim+1)+1:l*(dim+1)-1) = x;
+        end
+    end
+    for k=1:N(1)
+        for l=1:N(1)
+            Z2 = [Mdata(3); Mdata(4)];
+            Z1 = [z{1}(k,1); z{1}(l,2)];
+            h2 = 1./(1+exp(-(W4{1}'*Z1 + W4{2}'*Z2 + b4)));
+            x = bsxfun(@plus, W5'*h2, b5);
+            x = x.*faceStat.faceSTD;
+            x = x + faceStat.faceM;
+            x = reshape(x,[dim,dim]);
+            img3{2}((k-1)*(dim+1)+1:k*(dim+1)-1,(l-1)*(dim+1)+1:l*(dim+1)-1) = x;
+        end
+    end
+
     
 end
 
