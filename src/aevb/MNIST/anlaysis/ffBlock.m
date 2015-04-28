@@ -1,4 +1,4 @@
-function [M, Vtrue, Vdata] = ffBlock(name)
+function [M, Vtrue, Vdata, Z] = ffBlock(name)
     % a quick evaluation of the model
     % 1. reconstruction capability
     % 2. latent space visualization
@@ -135,7 +135,5 @@ function [M, Vtrue, Vdata] = ffBlock(name)
         hold on, plot(Zs{10 ,blockID}(1,:), Zs{10 ,blockID}(2,:),'kd')
         title(['block ' num2str(blockID)], 'FontSize',12,'FontWeight','Demi')
     end
-
+keyboard
 end
-%save(['statBlock' num2str(nBlocks) '.mat'], 'm','v','M','V');
-

@@ -26,8 +26,8 @@ function [img1, img2, img3] = sampleBlock(name)
     % part 3. sample images: firstly sample z then sample x|z
     % sample each blocks respectively
     s = 5000;
-    rv = mvnrnd(Mdata, Vdata, s);
-    rv = sort(rv);
+    rv0 = mvnrnd(Mdata, Vdata, s);
+    rv = sort(rv0);
     for blockID = 1:nBlocks
         z{blockID} = rv(100:200:end,(blockID-1)*D2+1:blockID*D2);
         N(blockID) = size(z{blockID},1);
