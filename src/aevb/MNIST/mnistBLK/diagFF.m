@@ -1,0 +1,43 @@
+function NN = diagFF(NN, setting, X1)
+
+    NN.X1 = X1;
+    batchSize = size(NN.X1,2);
+    
+    %% forward propagation
+    NN.h1 = sigmoid(bsxfun(@plus, NN.W1'*NN.X1, NN.b1));
+
+    NN.mu = bsxfun(@plus, NN.W2'*NN.h1, NN.b2);
+    NN.beta = bsxfun(@plus, NN.W3'*NN.h1, NN.b3);
+    NN.sigma = exp(0.5*NN.beta);
+    % note: covariance NN.sigma^2 = exp(NN.beta);
+    
+    % sampling:
+    NN.epsilon = randn(NN.D2, batchSize*setting.L);
+    for i=1:batchSize
+        id1 = (i-1)*setting.L+1;
+        id2 = i*setting.L;
+        NN.Z(:, id1:id2) = bsxfun(@plus, diag(NN.sigma(:,i))*NN.epsilon(:,id1:id2), NN.mu(:,i));
+    end
+
+    NN.h2 = sigmoid(bsxfun(@plus, NN.W4'*NN.Z, NN.b4));
+    NN.Y = sigmoid(bsxfun(@plus, NN.W5'*NN.h2, NN.b5));
+    
+    %% calculate the reconstruction loss
+    X2 = zeros(NN.D0, size(NN.X1,2)*setting.L);
+    for i=1:batchSize
+        id1 = (i-1)*setting.L+1;
+        id2 = i*setting.L;
+        X2(:,id1:id2) = repmat(NN.X1(:,i),[1,setting.L]);
+    end
+    
+    % cross entropy loss
+    NN.loss = -sum(sum(X2.*log(NN.Y+1e-32) + (1-X2).*log(1-NN.Y+1e-32)));
+    if(NN.loss/batchSize/setting.L<5)
+        keyboard
+    end
+    NN.delta3 = X2-NN.Y;
+end
+
+function X = sigmoid(X)
+    X = 1./(1+exp(-X));
+end
