@@ -1,9 +1,3 @@
-\subsection{Problem Definition}
-Suppose we have dataset $\{\mathbf{x}_i\}_{i=1}^{N}$ where $\mathbf{x}_i\in R^D$ and $N$ is the number of samples. The goal is to learn the hidden representation $\mathbf{z}_i\in R^K$ for each sample $\mathbf{x}_i$ such that $\mathbf{z}_i$ is disentangled. Here $K$ is the size of latent representation.
-Formally, we want to separate the $K$ hidden units into $L$ groups\footnote{In this paper, we assume the value of $L$ is known. However, our solution can be easily generalized to the nonparametric case where the value $L$ can automatically adapt to the data.} where the correlation between hidden units within the same group is much larger than the one between groups. Ideally, the hidden units within the same group can form a factor.
-Mathematically, we hope that the covariance of latent representation $\mathbf{z}$ has block diagonal structure, and the methods we propose in this paper highly depend on this assumption. Throughout the paper, we assume that we know the number of factors beforehand, but this assumption can be easily relaxed by using nonparametric model with Dirichless process.
-
-In the following sections, we introduce two new models for learning disentangled representation. For the first model, we assume that we know the exact block structure of covariance matrix, while for the second model, we relax this assumption to unknown block structure.
 
 \begin{figure}[hb]
   \centering
@@ -12,6 +6,13 @@ In the following sections, we introduce two new models for learning disentangled
    {Graphical representation of proposed model. $\alpha$ encodes the set of parameters for prior on $\mathbf{z}$, $\theta$ encodes the parameters for the generative model $p(\mathbf{x}|\mathbf{z})$, $\phi$ are the parameters for approximate posterior $p(\mathbf{z}|\mathbf{x})$}
   \label{fig:model}
 \end{figure}
+
+\subsection{Problem Definition}
+Suppose we have dataset $\{\mathbf{x}_i\}_{i=1}^{N}$ where $\mathbf{x}_i\in R^D$ and $N$ is the number of samples. The goal is to learn the hidden representation $\mathbf{z}_i\in R^K$ for each sample $\mathbf{x}_i$ such that $\mathbf{z}_i$ is disentangled. Here $K$ is the size of latent representation.
+Formally, we want to separate the $K$ hidden units into $L$ groups\footnote{In this paper, we assume the value of $L$ is known. However, our solution can be easily generalized to the nonparametric case where the value $L$ can automatically adapt to the data.} where the correlation between hidden units within the same group is much larger than the one between groups. Ideally, the hidden units within the same group can form a factor.
+Mathematically, we hope that the covariance of latent representation $\mathbf{z}$ has block diagonal structure, and the methods we propose in this paper highly depend on this assumption. Throughout the paper, we assume that we know the number of factors beforehand, but this assumption can be easily relaxed by using nonparametric model with Dirichless process.
+
+In the following sections, we introduce two new models for learning disentangled representation. For the first model, we assume that we know the exact block structure of covariance matrix, while for the second model, we relax this assumption to unknown block structure.
 
 \subsection{Learning Factors of Variation with Known Block Structure}
 We assume that the structure (size) of each block is known and this makes it easier to define the corresponding block diagonal covariance matrix. Such covariance matrix can be directly applied to the prior distribution $p(\mathbf{z})$ to guide the learning procedure. In addition, we could also easily parameterize the variational posterior distribution $q_{\phi}(\mathbf{z}|\mathbf{x})$ with Gaussian distribution with block diagonal covariance matrix, which will be discussed later.
