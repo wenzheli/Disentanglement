@@ -55,7 +55,7 @@ where $\psi(\cdot)$ is the digamma function, and $\mathbf{m}, \beta$ are the pri
   \centering
   \includegraphics[width=1.8in]{images/blockmodel.pdf}
   \caption[]
-   {Graphical representation of our proposed block diagonal prior model. $\alpha, \sigma_d, \sigma_g, \sigma_{\eta}$ are the hyperparameters. $\{c_k\}, \{g_{kl}\}, \{\eta_{nl}\}$ are the parameters of the prior model. $\{\mathbf{z_i}\}$ is the latent representation, and $\{\mathbf{x}_i\}$ are our observations. The difference between this model and our previous model is that we add additional generative process on top of $z$. The generative process of $p(x|z)$ and its corresponding posterior $q(z|x)$ remains the same, which are parameterized by $\theta, \psi$ respectively. }
+   {Graphical representation of our proposed block diagonal prior model. $\alpha, \sigma_d, \sigma_g, \sigma_{\eta}$ are the hyperparameters. $\{c_k\}, \{g_{kl}\}, \{\eta_{nl}\}$ are the parameters of the prior model. $\{\mathbf{z_i}\}$ is the latent representation, and $\{\mathbf{x}_i\}$ are our observations. The difference between this model and our previous model is that we add additional generative process on top of $\mathbf{z}$. The generative process of $p(\mathbf{x}|\mathbf{z})$ and its corresponding posterior $q(\mathbf{z}|\mathbf{x})$ remains the same, which are parameterized by $\theta, \psi$ respectively. }
   \label{fig:blockprior}
 \end{figure}
 
@@ -110,7 +110,8 @@ The learning for current model is more complicated than previous ones, which req
 \mu_{\eta_l}^*, \Lambda_{\eta_{l}}^*={\Lambda_{\eta_l}^*}^{-1}\left(\frac{\mu_\eta}{\sigma_{\eta}^2}+\frac{\sum_{k=1}^{K}g_{kl}c_{kl}z_{nk}}{\sigma_d^2}\right),
 \frac{1}{\sigma_{\eta}^2}+\frac{\sum_{k=1}^{K}g_{kl}^2c_{kl}^2}{\sigma_d^2}
 \]
-\paragraph{Sampling $\mathbf{C}$} $p(C_{kl}=1|Z, X, G) \sim \Lambda_{g_{kl}}^{-1/2}\exp(\frac{\Lambda_{g_{kl}}^{\ast}{\mu_{g_{kl}}^{\ast}}^2}{2})P(C_{dk}=1|\alpha)$ 
+
+\paragraph{Sampling $\mathbf{C}$} $p(C_{kl}=1|\mathbf{Z}, \mathbf{X}, \mathbf{G}) \sim \Lambda_{g_{kl}}^{-1/2}\exp(\frac{\Lambda_{g_{kl}}^{\ast}{\mu_{g_{kl}}^{\ast}}^2}{2})P(C_{dk}=1|\alpha)$
 
 \begin{algorithm}[t]
 \caption{Learning procedure for our model with unknown block structure}\label{alg}
