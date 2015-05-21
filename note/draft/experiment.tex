@@ -3,24 +3,31 @@ We validate our approaches on several image datasets.  The evaluation are mainly
 \subsection{Setup}
 \paragraph{Data} We evaluate our methods on $3$ image datasets: MNIST dataset~\footnote{http://yann.lecun.com/exdb/mnist/}, Face dataset~\footnote{http://www.multipie.org/} and Norb dataset~\footnote{http://www.cs.nyu.edu/~ylclab/data/norb-v1.0/}. MNIST contains $50,000$ training and $10,000$ testing samples from 10 different digit classes, and each image mainly contains two factors of variation: digit class and writing style. The face dataset contains the human face images from $68$ identities with different lighting conditions and views, which in total provides $3$ different factors\footnote{We use only subset of the original dataset.}. The Norb dataset also contains 3 factors including category, orientation and brightness\footnote{In fact, the Norb dataset contains more than 3 factors such as category, subcategory.etc. But in this experiments, we manually merge some of the factors which gives us total 3 factors in the end}.
 
-\paragraph{Details} For each dataset, we convert the feature vector into normal distribution with mean zero and unit variance. We evaluate the performance on several models which are the combinations of different prior and variational posterior distributions. The summary of the proposed models and baseline model are shown in Table~\ref{table:model}
+\paragraph{Details} For each dataset, we convert the image pixel values of each dimension into normal distribution with mean zero and unit variance. We evaluate the performance on several models which are the combinations of different prior and variational posterior distributions. The summary of the proposed models and baseline model are shown in Table~\ref{table:model}
 
 The model A is the baseline from \cite{kingma2013auto}, which assumes $\mathcal{N}(0,1)$ prior on $p(\mathbf{z})$ and Gaussian distribution with diagonal covariance $\mathcal{N}(\mu, \sigma^2\mathbf{I})$ for variational posterior distribution $q_{\phi}(\mathbf{z}|\mathbf{x})$
 
 The model B and C are the ones trained with known block structure (i.e the number of blocks, and the size of each block). We put Gaussian distribution with block diagonal covariance $\mathcal{N}(\mu, \Lambda)$ on $p(\mathbf{z})$, where we explicitly parameterize $\Lambda$ with $L$ sub-blocks whose size are known. The main difference between model B and model C is that we use different forms of covariance to parameterize the variational posterior distribution $q_{\phi}(\mathbf{z}|\mathbf{x})$. For model B, we use Gaussian distribution with diagonal covariance $\mathcal{N}(0,\sigma^2\mathbf{I})$. On the other hand, for model C, we parameterize it using block diagonal covariance, where each sub-block is generated from MLP.
 
-The model D is the generalization of model B and C to the case that the block structure is unknown. Instead of putting explicitly defined covariance on prior $p(\mathbf{z})$, instead, we put variable clustering prior~\cite{palla2012nonparametric} which introduces cluster membership for each dimension of latent representation.
+The model D and E are the generalization of model B and C to the case that the block structure is unknown (but we know the number of blocks $K$). The only difference is that we use block diagonal covariance to parameterize the posterior distribution for model D, while we use full covariance for model E.
 
+The model G and F further generalize the model D and E. We use Chinese restaurant process (CRP) to infer the number $K$ from the data, instead of explicitly defining it beforehand. 
+
+The model $\text{B}^*$ and $\text{C}^*$ are the supervised versions of model B and C, respectively. We add the supervised loss on one block of latent representation $z$. 
+
+Finally, the model H is one baseline that we don't assume any structure on the prior or variational posterior. 
 
 \begin{table}
 \centering
-\begin{tabular}{|l|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
-\backslashbox{Posterior}{Prior}  & $\mathcal{N}(0,1)$ & BLK & BLK(unknown) \\
+\backslashbox{Posterior}{Prior}  & Full & $\mathcal{N}(0,1)$ & BLK(NW) & BLK(Factor) & DP Prior & S-BLK(NW) \\
 \hline
- Diagonal& Model A & Model B & Model D\\
+ Diagonal& & Model $A$ & Model B & Model D & Model G & Model $\text{B}^*$ \\
  \hline
- BLK &  & Model C& \\
+ BLK &  & & Model C& && Model $\text{C}^*$ \\
+ \hline
+ Full & Model H& &&Model E& Model F & \\
 % & all & all\\
 \hline
 \end{tabular}
@@ -32,6 +39,7 @@ The model D is the generalization of model B and C to the case that the block st
 \subsection{MNIST datset}
 \paragraph{Learning with $4$ hidden units and $2$ blocks}
 We assume the size of hidden units is $4$, and the input data has two factors of variation. For model B and C, we define the covariance matrix having two $2$ by $2$ sub-blocks on the diagonal. This enforces that the first two hidden units control one factor, and the remaining two control the second factor, but we don't define which factor controls digit class or writing style before learning the model. For model A, since we don't explicitly define the grouping structures of hidden units, we need to do greedy search to figure out the group of hidden units control each of the factors. On the other hand, model D can automatically discover the group of hidden units without defining the structure. This brings one significant benefit in the cases that some factors contain much more information than others, and we expect that model D is able to assign more hidden units to those complex factors and less to the simpler ones. We will demonstrate some interesting observations in later section.
+
 
 \paragraph{Quality of samples from different models}
 \begin{figure}
@@ -94,7 +102,7 @@ We also evaluate the predicative performance on the learned representation $\mat
 	\end{center}
 \end{table*}
 
-The difference between these models is not obvious. In general, the model with block diagonal prior and block diagonal variational posterior performs best. This is reasonable since we explicitly define the block structure which is equivalent to putting hard constraints. Although the model D does give least accuracy when we using all the hidden units, the performance on the digit factor is reasonablely good. The baseline model A gives the best accuracy when we only consider the digit factor. But please note that this factor is found by greedy search which provides the best accuracy, which might be unfair for comparisons with other models. 
+The difference between these models is not obvious. In general, the model with block diagonal prior and block diagonal variational posterior performs best. This is reasonable since we explicitly define the block structure which is equivalent to putting hard constraints. Although the model D does give least accuracy when we using all the hidden units, the performance on the digit factor is reasonablely good. The baseline model A gives the best accuracy when we only consider the digit factor. But please note that this factor is found by greedy search which provides the best accuracy, which might be unfair for comparisons with other models.
 
 \subsection{Face dataset}
 Face dataset contains $3$ factors. However, the image is more complicated than MNIST dataset, which means that each image contains more information. Thus, for this experiment, we increase the number of hidden units to $6$. Figure~\ref{fig:FacesamplesModel3} shows the generated samples from model C. We set the size of each factor having $2$ hidden units. From this figure, we can easily see that block 1 encodes identity, block 2 encodes brightness and block 3 encodes view factor.
@@ -182,5 +190,5 @@ This right figure clearly shows the block structure of each factor for model D. 
     \label{fig:norbsamples}
 \end{figure}
 
-In order to better understand the performance of our models. We also evaluate them on more complex datasets, which has three factors of variation. We use $6$ hidden units and we set the number of blocks to $3$. The Figure~\ref{fig:norbsamples} shows the generated samples from Model C. We can easily see that the block 1 encodes orientation, block 2 encodes the brightness and block 3 encodes the identity. 
- 
+In order to better understand the performance of our models. We also evaluate them on more complex datasets, which has three factors of variation. We use $6$ hidden units and we set the number of blocks to $3$. The Figure~\ref{fig:norbsamples} shows the generated samples from Model C. We can easily see that the block 1 encodes orientation, block 2 encodes the brightness and block 3 encodes the identity.
+
