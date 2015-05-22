@@ -22,6 +22,9 @@ function saveModel(name, NN, process)
     
     model.shape = NN.shape;
     model.alg = NN.alg;
+    model.algInit = NN.algInit;
+    model.ftLoss = NN.ftLoss;
+
     if(strcmp(model.shape, 'block'))
         model.nBlocks = NN.nBlocks;
         model.blocks = NN.blocks;
