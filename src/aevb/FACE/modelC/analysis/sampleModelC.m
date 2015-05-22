@@ -1,6 +1,7 @@
 function sampleBlockModel(modelName)
 % sample the observations
 
+    addpath('../learner');
     %% part 1. load model & data
     model = loadModel(modelName);
     [dataTr, labelTr, model.faceM, model.faceSTD] = loadFaceData();
@@ -103,8 +104,7 @@ function [Z, Mdata, Vpost, Vdata, Mprior, Vprior] = inferFF(model, dataTr)
     Vprior = [];
     
     if(strcmp(model.shape, 'block'))
-        NW = model.NW;
-        
+        NW = defaultNWinit(model);
         Z = cell(model.nBlocks,1);
         Beta = cell(model.nBlocks,1);
         Sigma = cell(model.nBlocks,1);
