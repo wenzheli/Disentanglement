@@ -1,0 +1,50 @@
+modelB w/ prior
+block1 feature: 
+    view classification, different id
+    momentum: 0.9, lrate: 0.1, l2: 0.05, performance 0.574591, 0.565191
+    view classification, different brightness
+    momentum: 0.9, lrate: 0.1, l2: 0.01, performance 0.620119, 0.439144
+block2:
+    view classification, different id
+    momentum: 0.9, lrate: 0.1, l2: 0.01, performance 0.497271, 0.490904
+    view classification, different brightness
+    momentum: 0.9, lrate: 0.1, l2: 0.01, performance 0.517226, 0.357111
+block3:
+    view classification, different id
+    momentum: 0.9, lrate: 0.1, l2: 0.001, performance 0.733475, 0.765616
+    view classification, different brightness
+    momentum: 0.9, lrate: 0.1, l2: 0.01, performance 0.741847, 0.628622
+
+modelC w NW priors
+block1 feature: 
+    view classification, different id
+	momentum: 0.9, lrate: 0.1, l2: 0.05, performance 0.503639, 0.489994
+    view classification, different brightness
+	momentum: 0.9, lrate: 0.1, l2: 0.05, performance 0.499770, 0.512706
+block2 feature: 
+    view classification, different id
+	momentum: 0.9, lrate: 0.1, l2: 0.001, performance 0.687690, 0.699515
+    view classification, different brightness
+	momentum: 0.9, lrate: 0.1, l2: 0.001, performance 0.705558, 0.664289
+block3 feature: 
+    view classification, different id
+	momentum: 0.9, lrate: 0.1, l2: 0.01, performance 0.565797, 0.547301
+    view classification, different brightness
+	momentum: 0.9, lrate: 0.1, l2: 0.05, performance 0.645843, 0.508248
+
+modelE1: (data independent mean, 9 hu)
+block1 feature: 
+    view classification, different id
+	momentum: 0.9, lrate: 0.1, l2: 0.001, performance 0.740752, 0.717404
+    view classification, different brightness
+	momentum: 0.9, lrate: 0.1, l2: 0.001, performance 0.728525, 0.716451
+block2 feature: 
+    view classification, different id
+	momentum: 0.9, lrate: 0.1, l2: 0.05, performance 0.518496, 0.515464
+    view classification, different brightness
+	momentum: 0.9, lrate: 0.1, l2: 0.01, performance 0.543408, 0.471690
+block3 feature: 
+    view classification, different id
+	momentum: 0.9, lrate: 0.1, l2: 0.01, performance 0.687386, 0.694360
+    view classification, different brightness
+	momentum: 0.9, lrate: 0.1, l2: 0.05, performance 0.711530, 0.602764
