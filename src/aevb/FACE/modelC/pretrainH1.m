@@ -12,7 +12,7 @@ function NN = hybridNNinit(NN, setting)
     NN = defaultNNinit(NN, setting);
     
     %% secondly, revise the first/last layer parameters from pretrained model
-    namePart1 = '/home/dong/Research/DeepLearning/Projects/RepLearning/week6/FACE/model/GRBM/model1K.mat';
+    namePart1 = '../data/model1K.mat';
     modelPart1 = load(namePart1);
     NN.faceM = modelPart1.faceM;
     NN.faceSTD = modelPart1.faceSTD;
