@@ -28,18 +28,17 @@
 %       pretrain {W2, W3, W4, b2, b3, b4} using supervised NN
 %       pretrain {W5, b5} using supervised NN
 % 
-
+addpath('../analysis');
 dimZs = [2 3 4]; % number of nodes per block
 
 % global settings:
-algInit = 'ptH1';
+algInit = 'ptZ';
 shape = 'block';
 alg = 'adadelta';
 nBlocks = 3;
 
-
-for paramIter1 = 1:1
-    for paramIter2 = 11:12  % 12 possible learning parameters
+for paramIter1 = 1:3
+    for paramIter2 = 1:12  % 12 possible learning parameters
             
         % load the renormalized face data
         [dataTr, ~, ~, ~] = loadFaceData();
@@ -48,7 +47,6 @@ for paramIter1 = 1:1
         dimZ = dimZs(paramIter1);
         learnParam = paramIter2;
         [NN, NNsetting] = defaultNNsetting(dataTr(:,1:10), dimZ, learnParam, shape, alg, nBlocks);
-        
         
         %% initialization and pretraining stage
         NN.algInit = algInit;
@@ -111,7 +109,7 @@ for paramIter1 = 1:1
             
             %% save model
             fprintf('epoch %d, log-likelihood is %f\n', epoch, NN.ftLoss(epoch)/nSamples/NNsetting.L);
-            if(epoch<=2 || rem(epoch,5)==0)
+            if(epoch==1 || epoch==20)
                 nameNN = ['modelC_dim' num2str(NN.D2) 'epoch' num2str(epoch) '_lparam' num2str(learnParam) '_Init' NN.algInit '.mat'];
                 NN.prior = NW;
                 saveModelC(nameNN, NN);
