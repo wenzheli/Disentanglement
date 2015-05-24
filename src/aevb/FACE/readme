@@ -1,0 +1,6 @@
+to train:
+    in modelC:          trainFaceModelC.m 
+    in modelE1large:    trainFaceModelEZmini.m
+    in modelE1small:    trainFaceModelEZmini.m
+    in modelE2large:    trainFaceModelEZmini.m
+    in modelE2small:    trainFaceModelEZmini.m
