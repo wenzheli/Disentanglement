@@ -1,0 +1,10 @@
+
+            if(epoch==1 || epoch==20)
+                if(strcmp(alg, 'sgd'))
+                    nameNN = ['modelD_dim' num2str(NN.D2) 'epoch' num2str(epoch) 'SGD' num2str(learnParam) 'init' algInit '.mat'];
+                elseif(strcmp(alg, 'adadelta'))
+                    nameNN = ['modelD_dim' num2str(NN.D2) 'epoch' num2str(epoch) 'Ada' num2str(learnParam) 'init' algInit '.mat'];
+                end
+                saveModelA(nameNN, NN);
+            end
+
