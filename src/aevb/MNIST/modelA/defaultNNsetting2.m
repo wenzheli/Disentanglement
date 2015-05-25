@@ -68,10 +68,10 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
         setting.alg = alg;
         setting.sgdParams = [
             1/10000 0.9;
-            1/10000 0.9;
-            1/2000 0.9;
-            1/2000 0.5;
-            1/10000 0.5;
+            1/5000 0.9;
+            1/500 0.9;
+            1/500 0.5;
+            1/5000 0.5;
             1/10000 0.5];
         NN.lrate = setting.sgdParams(1,1);
         NN.momentum = setting.sgdParams(1,2);

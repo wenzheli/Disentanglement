@@ -6,9 +6,9 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
     
     if(strcmp(shape,'diag'))
         NN.D0 = size(dataTr,1);
-        NN.D1 = 1000;
+        NN.D1 = 500;
         NN.D2 = D2;
-        NN.D3 = 1000;
+        NN.D3 = 500;
         setting.L = 10;
         setting.mbSize = 50;
 
@@ -23,9 +23,9 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
         NN.X2      = zeros(NN.D0, setting.mbSize*setting.L);
     elseif(strcmp(shape,'block'))
         NN.D0 = size(dataTr,1);
-        NN.D1 = 1000;
+        NN.D1 = 500;
         NN.D2 = D2;
-        NN.D3 = 1000;
+        NN.D3 = 500;
         setting.L = 10;
         setting.mbSize = 50;
 
@@ -44,9 +44,9 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
         NN.X2      = zeros(NN.D0, setting.mbSize*setting.L);
     elseif(strcmp(shape,'full'))
         NN.D0 = size(dataTr,1);
-        NN.D1 = 1000;
+        NN.D1 = 500;
         NN.D2 = D2;
-        NN.D3 = 1000;
+        NN.D3 = 500;
         setting.L = 10;
         setting.mbSize = 50;
 
@@ -69,8 +69,8 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
         setting.sgdParams = [
             1/10000 0.9;
             1/5000 0.9;
-            1/2000 0.9;
-            1/2000 0.5;
+            1/500 0.9;
+            1/500 0.5;
             1/5000 0.5;
             1/10000 0.5];
         NN.lrate = setting.sgdParams(1,1);
@@ -99,5 +99,5 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
     else
         error('the learning algorithm should be one of sgd, adadelta and adam');
     end
-    setting.nEpoch = 20;
+    setting.nEpoch = 10;
 end
