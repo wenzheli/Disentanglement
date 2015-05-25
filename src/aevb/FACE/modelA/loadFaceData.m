@@ -12,7 +12,7 @@ function [dataTr, labelTr, faceM, faceSTD] = loadFaceData()
 
     % renormalization the data, 
     %   so as to be consistent with the pretrained parameters
-    modelPart1 = load('../data/model1K.mat');
+    modelPart1 = load('../../../week6/FACE/model/GRBM/model1K.mat');
     faceM = modelPart1.faceM;
     faceSTD = modelPart1.faceSTD;
     

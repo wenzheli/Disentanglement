@@ -54,7 +54,7 @@ function saveModelC(name, NN, process)
     model.b4 = NN.b4;
     model.b5 = NN.b5;
     
-    model.prior = NN.prior;
+    %model.prior = NN.prior;
     
 % 3. Learning Process
     model.ftLoss = NN.ftLoss;
