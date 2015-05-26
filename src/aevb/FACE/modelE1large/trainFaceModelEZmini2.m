@@ -9,7 +9,7 @@ algInit = 'ptZ';
 shape = 'full';
 alg = 'adadelta';
 nBlocks = 3;
-for paramIter1 = 1:3
+for paramIter1 = 3:3
     for paramIter2 = 5:12
         % load face data which is renormalized
         [dataTr, ~, ~, ~] = loadFaceData();
