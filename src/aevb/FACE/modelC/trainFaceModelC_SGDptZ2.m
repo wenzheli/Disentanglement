@@ -37,7 +37,7 @@ shape = 'block';
 alg = 'sgd';
 nBlocks = 3;
 
-for paramIter1 = 1:2
+for paramIter1 = 3:3
     for paramIter2 = 1:6  % 12 possible learning parameters
             
         % load the renormalized face data
