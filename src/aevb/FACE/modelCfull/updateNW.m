@@ -1,0 +1,49 @@
+function NW = updateNW(NN, NW)
+% constant prior parameters:
+%   NW.nu0
+%   NW.invW0, inverse of (equivalent to) NW.W0
+%   NW.beta0
+%   NW.mu0
+% output parameters: 
+%   NW.Lambda
+%   NW.mu
+% data statistics: 
+%   sum1
+%   sum2
+%   N
+
+    nBlocks = NN.nBlocks;
+    m = size(NN.Mu,2);
+    
+    for blockID = 1:nBlocks
+        % previous statistics
+        sum1 = NW.sum1{blockID};
+        sum2 = NW.sum2{blockID};
+        N = NW.N;
+        
+        % new statistics: update sum1, sum2 and N
+        mu = NN.Mu(NN.blocks{blockID},:);
+        sum1 = (N*sum1+mu*mu')/(N+m);
+        sum2 = (N*sum2+sum(mu,2))/(N+m);
+        N = N+m;
+        
+        beta0 = NW.beta0{blockID};
+        nu0 = NW.nu0{blockID};
+        invW0 = NW.invW0{blockID};
+        mu0 = NW.mu0{blockID};
+        
+        NW.Lambda(NN.blocks{blockID}, NN.blocks{blockID}) = ...
+            invW0/N + ...
+            (sum1-sum2*sum2') + ...
+            beta0/(beta0+N)*(sum2-mu0)*(sum2-mu0)';
+        NW.Lambda(NN.blocks{blockID}, NN.blocks{blockID}) = ...
+            (1+nu0/N)*inv(NW.Lambda(NN.blocks{blockID},NN.blocks{blockID}));
+        NW.mu(NN.blocks{blockID}) = beta0/(beta0+N)*mu0 + N/(beta0+N)*sum2;
+        
+        NW.sum1{blockID} = sum1;
+        NW.sum2{blockID} = sum2;
+        
+    end
+    NW.N = NW.N+m;
+    
+end
