@@ -35,7 +35,7 @@ function dataH2 = genH2(NN, dataX)
     dataH2 = zeros(NN.D3, nSamples);
     for firstIdx = 1:1000:nSamples
         lastIdx = min(firstIdx+999, nSamples);
-        h1 = 1./(1+exp(-bsxfun(@times, NN.W1'*dataX(:,firstIdx:lastIdx), NN.b1)));
+        h1 = 1./(1+exp(-bsxfun(@plus, NN.W1'*dataX(:,firstIdx:lastIdx), NN.b1)));
         Z = bsxfun(@plus, NN.W2'*h1, NN.b2);
         dataH2(:,firstIdx:lastIdx) = 1./(1+exp(-bsxfun(@plus, NN.W4'*Z, NN.b4)));
     end

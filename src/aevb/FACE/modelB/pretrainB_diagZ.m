@@ -8,7 +8,7 @@ function [NN] = pretrainB_diagZ(NN, NNsetting, dataTr)
     dataH = zeros(NN.D1, nSamples);
     for firstIdx = 1:1000:nSamples
         lastIdx = min(firstIdx+999, nSamples);
-        dataH(:,firstIdx:lastIdx) = 1./(1+exp(-bsxfun(@times, NN.W1'*dataTr(:,firstIdx:lastIdx), NN.b1)));
+        dataH(:,firstIdx:lastIdx) = 1./(1+exp(-bsxfun(@plus, NN.W1'*dataTr(:,firstIdx:lastIdx), NN.b1)));
     end
     
     quickStop=0;
@@ -106,7 +106,7 @@ function NN = backDiagZ(NN, NNsetting, nw)
     % part 2: from KL divergence
     NN.deltaMu = NN.deltaMu-L*nw.Lambda*(bsxfun(@minus, NN.mu, nw.mu));
     invSigmaPrior = diag(nw.Lambda);
-    NN.deltaSigma = NN.deltaSigma - L*(bsxfun(@times, NN.sigma, invSigmaPrior) - NN.sigma.^(-1));
+    NN.deltaSigma = NN.deltaSigma - L*(bsxfun(@plus, NN.sigma, invSigmaPrior) - NN.sigma.^(-1));
     
     NN.deltaBeta = NN.deltaSigma.*exp(0.5*NN.beta)/2;
     

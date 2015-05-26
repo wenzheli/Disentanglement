@@ -7,7 +7,7 @@ function [NN] = pretrainD_diagZ(NN, NNsetting, dataTr)
     dataH = zeros(NN.D1, nSamples);
     for firstIdx = 1:1000:nSamples
         lastIdx = min(firstIdx+999, nSamples);
-        dataH(:,firstIdx:lastIdx) = 1./(1+exp(-bsxfun(@times, NN.W1'*dataTr(:,firstIdx:lastIdx), NN.b1)));
+        dataH(:,firstIdx:lastIdx) = 1./(1+exp(-bsxfun(@plus, NN.W1'*dataTr(:,firstIdx:lastIdx), NN.b1)));
     end
     
     quickStop=0;
