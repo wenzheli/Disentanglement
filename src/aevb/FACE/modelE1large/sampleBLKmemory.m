@@ -92,7 +92,7 @@ function [param] = sample_CG_collapsed(Z, param)
     MuG = (xz'/param.sigma_noise^2+param.mu_g/param.sigma_g^2)./LambdaG;
     
     probC = probC - 0.5*log(LambdaG) + 0.5*LambdaG.*(MuG.^2);
-    probC = exp(bsxfun(@minus, probC, max(probC,2)));
+    probC = exp(bsxfun(@minus, probC, max(probC,[], 2)));
     probC = bsxfun(@rdivide, probC, sum(probC,2));
 
     % param.cc(d) is the cluster id of d-th dimension
