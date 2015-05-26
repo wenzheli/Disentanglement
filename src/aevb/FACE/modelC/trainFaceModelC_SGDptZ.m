@@ -29,7 +29,7 @@
 %       pretrain {W5, b5} using supervised NN
 % 
 addpath('../analysis');
-dimZs = [2 3 4]; % number of nodes per block
+dimZs = [2 4 8]; % number of nodes per block
 
 % global settings:
 algInit = 'ptZ';
@@ -37,7 +37,7 @@ shape = 'block';
 alg = 'sgd';
 nBlocks = 3;
 
-for paramIter1 = 1:2
+for paramIter1 = 1:3
     for paramIter2 = 1:6  % 12 possible learning parameters
             
         % load the renormalized face data
