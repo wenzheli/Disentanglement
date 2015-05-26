@@ -6,9 +6,9 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
     
     if(strcmp(shape,'diag'))
         NN.D0 = size(dataTr,1);
-        NN.D1 = 500;
+        NN.D1 = 1000;
         NN.D2 = D2;
-        NN.D3 = 500;
+        NN.D3 = 1000;
         setting.L = 10;
         setting.mbSize = 50;
 
@@ -23,9 +23,9 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
         NN.X2      = zeros(NN.D0, setting.mbSize*setting.L);
     elseif(strcmp(shape,'block'))
         NN.D0 = size(dataTr,1);
-        NN.D1 = 500;
+        NN.D1 = 1000;
         NN.D2 = D2;
-        NN.D3 = 500;
+        NN.D3 = 1000;
         setting.L = 10;
         setting.mbSize = 50;
 
@@ -44,9 +44,9 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
         NN.X2      = zeros(NN.D0, setting.mbSize*setting.L);
     elseif(strcmp(shape,'full'))
         NN.D0 = size(dataTr,1);
-        NN.D1 = 500;
+        NN.D1 = 1000;
         NN.D2 = D2;
-        NN.D3 = 500;
+        NN.D3 = 1000;
         setting.L = 10;
         setting.mbSize = 50;
 
