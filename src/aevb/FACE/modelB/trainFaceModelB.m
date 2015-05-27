@@ -29,6 +29,7 @@
 %       pretrain {W5, b5} using supervised NN
 % 
 
+addpath('../analysis');
 dimZs = [2 3 4]; % number of nodes per block, in prior
 
 % global settings:

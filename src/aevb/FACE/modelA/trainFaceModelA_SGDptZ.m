@@ -1,11 +1,11 @@
-dimZs = [2 3];
+dimZs = [2 4 8];
 nBlocks = 3;
 % nBlocks*dimZ: the number of hidden nodes
 algInit = 'ptZ';
 shape = 'diag';
 alg = 'sgd';
         
-for paramIter1 = 1:2
+for paramIter1 = 1:3
     for paramIter2 = 1:6 % if SGD, totally 4 parameters
         % load face data which is renormalized
         [dataTr, ~, ~, ~] = loadFaceData();

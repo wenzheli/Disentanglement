@@ -96,5 +96,5 @@ function [NN, setting]= defaultNNsetting(dataTr, D2, hid, shape, alg, nBlocks)
     else
         error('the learning algorithm should be one of sgd, adadelta and adam');
     end
-    setting.nEpoch = 20;
+    setting.nEpoch = 30;
 end
