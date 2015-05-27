@@ -4,13 +4,13 @@
 %   3. diagonal posterior
 
 K = 3;
-dimZs = [2 3 4 5]*K;
+dimZs = [2 4 8]*K;
 algInit = 'ptZ';
 shape = 'full';
 alg = 'adadelta';
 nBlocks = 3;
-for paramIter1 = 1:4
-    for paramIter2 = 1:12
+for paramIter1 = 1:2
+    for paramIter2 = 5:12
         % load face data which is renormalized
         [dataTr, ~, ~, ~] = loadFaceData();
         
@@ -31,12 +31,12 @@ for paramIter1 = 1:4
         elseif(strcmp(NN.algInit, 'ptZ'))
             % it seems that pretraining Z is helpful
             NN = pretrainH1(NN, NNsetting);
-            NN = pretrainEavg_fullZ(NN, NNsetting, dataTr);
+            NN = pretrainEmini_fullZ(NN, NNsetting, dataTr);
         elseif(strcmp(NN.algInit, 'ptH2'))
             % pretraining H2 layer is problematic
             %   do not recomment using this option
             NN = pretrainH1(NN, NNsetting);
-            NN = pretrainEavg_fullZ(NN, NNsetting, dataTr);
+            NN = pretrainEmini_fullZ(NN, NNsetting, dataTr);
             NN = pretrainE_fullH2(NN, NNsetting, dataTr);
         else % random initialization
             NN = defaultNNinit(NN, NNsetting);
@@ -79,7 +79,7 @@ for paramIter1 = 1:4
                 end
                 
                 %% sampling BLK model provided hidden representations
-                [BLK, ~] = sampleBLKmemory(NN.Z, BLK, BLKsetting);
+                [BLK, ~] = sampleBLK(NN.Z, BLK, BLKsetting);
                 if(rem(batchIdx,100)==0 || (epoch==1 && rem(batchIdx,10)==0))
                     process.histC{histCount} = BLK.C;
                     process.histG{histCount} = BLK.G;
@@ -101,7 +101,7 @@ for paramIter1 = 1:4
             fprintf('epoch %d, log-likelihood is %f\n', epoch, NN.ftLoss(epoch)/nSamples/NNsetting.L);
             %if(epoch<=1 || rem(epoch,20)==0)
             if(epoch==1 || epoch==20)
-                nameNN = ['modelEmemo_dim' num2str(NN.D2) 'epoch' num2str(epoch) 'Ada' num2str(learnParam) 'init' NN.algInit '.mat'];
+                nameNN = ['modelE_dim' num2str(NN.D2) 'epoch' num2str(epoch) 'Ada' num2str(learnParam) 'init' NN.algInit '.mat'];
                 saveModelE(nameNN, NN, BLK, process);
             end
         end
