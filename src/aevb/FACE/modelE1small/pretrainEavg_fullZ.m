@@ -14,8 +14,8 @@ function [NN] = pretrainE_fullZ(NN, NNsetting, dataTr)
     
     quickStop=0;
     reconVar= zeros(NN.D1, NNsetting.mbSize*NNsetting.L);
-    NN.ptZLoss = zeros(NNsetting.nEpoch,1);
-    for epoch = 1:NNsetting.nEpoch
+    NN.ptZLoss = zeros(NNsetting.nPtEpoch,1);
+    for epoch = 1:NNsetting.nPtEpoch
         if(quickStop==1)
             break;
         end

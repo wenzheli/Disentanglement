@@ -7,9 +7,9 @@ function [NN] = pretrainE_fullH2(NN, NNsetting, dataX)
     nSamples = size(dataTr,2);
     mbSize = NNsetting.mbSize;
     numBatch = floor(nSamples/NNsetting.mbSize);
-    NN.ptH2Loss = zeros(NNsetting.nEpoch,1);
+    NN.ptH2Loss = zeros(NNsetting.nPtEpoch,1);
     
-    for epoch = 1:NNsetting.nEpoch
+    for epoch = 1:NNsetting.nPtEpoch
         index = randperm(nSamples);
         for batchIdx = 1:numBatch
             x = dataX(:, index((batchIdx-1)*mbSize+1:batchIdx*mbSize));
