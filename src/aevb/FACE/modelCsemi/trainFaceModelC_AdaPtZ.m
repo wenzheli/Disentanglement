@@ -29,7 +29,7 @@
 %       pretrain {W5, b5} using supervised NN
 % 
 
-addpath('../analysis');
+clear all
 dimZs = [2 4 8]; % number of nodes per block
 
 % global settings:
@@ -40,45 +40,8 @@ nBlocks = 3;
 
 % load the renormalized face data
 [dataTr, labelTr, ~, ~] = loadFaceData();
-if(iscell(labelTr))
-    NN.nClasses = length(labelTr);
-    NN.sizeClasses = zeros(NN.nClasses,1);
-    for classID = 1:NN.nClasses
-        labelTr{classID} = double(labelTr{classID} - min(labelTr{classID}) + 1);
-        NN.sizeClasses(classID) = max(labelTr{classID});
-        labelTr{classID} = sparse(labelTr{classID}, 1:length(labelTr{classID}), 1, max(labelTr{classID}), length(labelTr{classID}));
-    end
-else
-    NN.nClasses = 1;
-    labelTr = double(labelTr-min(labelTr)+1);
-    NN.sizeClasses = max(labelTr{1});
-    labelTr{1} = sparse(labelTr, 1:length(labelTr), 1, max(labelTr), length(labelTr));
-end
 
-%% settings relevant to classification task:
-% 1. randomly select RATIO of all samples
-nSamples = size(dataTr,2);
-NN.ratioLabel = 0.1;
-labelIdx = randperm(nSamples, floor(NN.ratioLabel*nSamples));
-NN.supervised = zeros(1,nSamples);
-NN.supervised(labelIdx) = 1; % indicator vector whether labels are used
-
-
-% 2. create a map between blocks and labels
-%   the default setting is: the i-th block correspond to the i-th label
-NN.mapBlock = zeros(NN.nClasses,1);
-for i=1:NN.nClasses
-    NN.mapBlock(i) = i;
-end
-
-%% hyperparameters on FACE dataset:
-% CASE 1: fully supervised learning
-%   cWeight(1): classifier weight on class 1 (view)
-%   cWeight(2): classifier weight on class 2 (ID)
-%   cWeight(3): classifier weight on class 3 (brightness)
-%       e.g. :
-NN.cWeight(1) = 10;
-NN.cWeight(2) = 1000;
+expDesign;
 
 % CASE 2: partially supervised learning using "inverse label"
 %   e.g. :
@@ -151,9 +114,9 @@ for paramIter1 = 1:1%1:2
                 NN.ftLossRecon(epoch) = NN.ftLossRecon(epoch)+NN.lossRecon;
                 NN.ftLossPred(epoch,:) = NN.ftLossPred(epoch,:)+NN.lossPred;
                 if(rem(batchIdx,20)==1)
-                    fprintf(2,'epoch %d, minibatch %d, recon & pred loss: %f, %s\n', ...
+                    fprintf(2,'epoch %d, minibatch %d, recon & pred loss: %f, [ %s ]\n', ...
                         epoch, batchIdx, ...
-                        NN.ftLossRecon(epoch)/batchIdx/NNsetting.mbSize/NNsetting.L/NN.ratioLabel,...
+                        NN.ftLossRecon(epoch)/batchIdx/NNsetting.mbSize/NNsetting.L,...
                         num2str(NN.ftLossPred(epoch,:)/batchIdx/NNsetting.mbSize/NNsetting.L/NN.ratioLabel));
                 end
 
@@ -168,8 +131,8 @@ for paramIter1 = 1:1%1:2
             end
             
             %% save model
-            fprintf('epoch %d, log-likelihood is %f, %s\n', epoch, ...
-                NN.ftLossRecon(epoch)/nSamples/NNsetting.L/NN.ratioLabel, ...
+            fprintf('epoch %d, log-likelihood is %f, [ %s ]\n', epoch, ...
+                NN.ftLossRecon(epoch)/nSamples/NNsetting.L, ...
                 num2str(NN.ftLossPred(epoch,:)/nSamples/NNsetting.L/NN.ratioLabel));
 
             if(epoch==1 || rem(epoch,5)==0)
