@@ -1,0 +1,2 @@
+trainFaceModelC_AdaPtZ
+trainFaceModelC_AdaR
